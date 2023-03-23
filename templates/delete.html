@@ -7,13 +7,13 @@
 </head>
 
 
-
-<body> <header>
+<body>
+<header>
     <h2>卓球分析</h2>
     <nav class="gnav">
         <ul class="menu">
 
-           <li> <label>年/月/日：<input type="date"></label></li>
+            <li><label>年/月/日：<input type="date"></label></li>
 
 
         </ul>
@@ -21,48 +21,48 @@
 </header>
 
 <div>
-  <h1>データベースの削除</h1>
-  <h2>削除したいデータベースのidを入力してください</h2>
+    <h1>データベースの削除</h1>
+    <h2>削除したいデータベースのidを入力してください</h2>
 
 
-    </div>
+</div>
 
 
-    <title>test</title>
-    <style>
-      div{
+<title>test</title>
+<style>
+    div {
         margin-bottom: 20px;
-      }
-    </style>
-  </head>
-  <body>
-  <div>
+    }
+</style>
+</head>
+<body>
+<div>
 
-        <form method="post" action="{{url_for('dele')}}">
+    <form method="post" action="{{ url_for('dele') }}">
 
-          <table border="1">
-              <tr>
-                  <th>id</th>
+        <table border="1">
+            <tr>
+                <th>id</th>
 
-              </tr>
-              <tr>
-                  <td><input type="int" name="id"></td>
+            </tr>
+            <tr>
+                <td><input type="int" name="id"></td>
 
-              </tr>
-          </table>
-      </div>
-      <div>
-        <input type="submit" value="送信する">
-        <label>
-          <input type="reset" value="リセットする"></label></label>
-        </form>
-
-
-      </div>
+            </tr>
+        </table>
+</div>
+<div>
+    <input type="submit" value="送信する">
+    <label>
+        <input type="reset" value="リセットする"></label></label>
     </form>
-  </div>
-  </body>
-  </html>
+
+
+</div>
+</form>
+</div>
+</body>
+</html>
 
 </body>
 

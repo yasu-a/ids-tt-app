@@ -1,5 +1,4 @@
 
-
 header .gnav .menu {
     display: flex; /* 中の要素を横並びにする */
 }
@@ -17,31 +16,34 @@ main {
 }
 
 
-body{margin-top: 5%;
-    margin-left: 20%;}
+body {
+    margin-top: 5%;
+    margin-left: 20%;
+}
 
-.button{
-    font-size:1.0rem;
+.button {
+    font-size: 1.0rem;
     position: relative;
     display: block;
     padding: 1em 2em 1em 1em;
     width: 175px;
     color: #000000;
-        line-height: 1;
+    line-height: 1;
     text-align: center;
     background: #7FFFD4;
     border-radius: 1.5em;
 }
 
-  .wrap{
+.wrap {
     margin-bottom: 20px;
-    height:100px;
-  }
-  .box{
-    display:inline-block;
-    text-align:center;
-    width:200px;
-    height:500px;
+    height: 100px;
+}
+
+.box {
+    display: inline-block;
+    text-align: center;
+    width: 200px;
+    height: 500px;
     position: relative;
     margin-top: 10
-  }
+}
