@@ -1,38 +1,23 @@
 import os
-import sqlite3
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, Flask, Blueprint
 
-DATABASE = 'database.db'
+import models
 
-# --------------テーブル全削除のときのみ使用-------------
-'''con = sqlite3.connect(DATABASE)
-cur = con.cursor()
-cur.execute("DROP table games")'''
-# ----------------------------------------------------
+# app = Flask(__name__)
+#
+#
+# models.init_db(app)
 
-con = sqlite3.connect(DATABASE)
-cur = con.cursor()
-cur.execute(
-    "CREATE TABLE IF NOT EXISTS games (id int PRIMARY KEY, date date, name text, right_left text, contents mediumblob)")
+main = Blueprint('main', __name__)
 
 
-@app.route('/')
+@main.route('/')
 def index():
-    con = sqlite3.connect(DATABASE)
-    cur = con.cursor()
-    cur.execute(
-        "CREATE TABLE IF NOT EXISTS games (id int PRIMARY KEY, day text, name text, right_left text, contents mediumblob)")
-    db_games = cur.execute('SELECT * FROM games ORDER BY id DESC').fetchall()
-    games = []
-    for row in db_games:
-        games.append(
-            {'id': row[0], 'day': row[1], 'name': row[2], 'right_left': row[3], 'contents': row[4]})
-    con.commit()
-    con.close()
+    games = models.Game.query.all()
 
     return render_template(
         'index.html',
@@ -40,50 +25,43 @@ def index():
     )
 
 
-@app.route('/sear', methods=['post'])
+@main.route('/sear', methods=['post'])
 def sear():
-    date = request.form['date']
-    search = request.form['search']
-    con = sqlite3.connect(DATABASE)
-    cur = con.cursor()
-    cur.execute(
-        "CREATE TABLE IF NOT EXISTS games (id int PRIMARY KEY, day text, name text, right_left text, contents mediumblob)")
-    print(date, len(date))
-    print(search, len(search))
-    print("a")
-    if len(date) == 0 and len(search) == 0:
-        search_games = cur.execute('SELECT * FROM games ORDER BY id DESC').fetchall()
-    elif len(date) != 0 and len(search) == 0:
-        search_games = cur.execute("SELECT * from games where date = (?) ORDER BY id DESC",
-                                   [date]).fetchall()
-    elif len(date) == 0 and len(search) != 0:
-        search_games = cur.execute(
-            "SELECT * from games where name = (?) or right_left = (?) ORDER BY id DESC",
-            [search, search]).fetchall()
-    else:
-        search_games = cur.execute(
-            "SELECT * from games where date = (?) and (name = (?) or right_left = (?)) ORDER BY id DESC",
-            [date, search, search]).fetchall()
-    games = []
-    for row in search_games:
-        games.append(
-            {'id': row[0], 'day': row[1], 'name': row[2], 'right_left': row[3], 'contents': row[4]})
-    con.commit()
-    con.close()
+    # date = request.form['date']
+    # search = request.form['search']
+    # if len(date) == 0 and len(search) == 0:
+    #     search_games = cur.execute('SELECT * FROM games ORDER BY id DESC').fetchall()
+    # elif len(date) != 0 and len(search) == 0:
+    #     search_games = cur.execute("SELECT * from games where date = (?) ORDER BY id DESC",
+    #                                [date]).fetchall()
+    # elif len(date) == 0 and len(search) != 0:
+    #     search_games = cur.execute(
+    #         "SELECT * from games where name = (?) or right_left = (?) ORDER BY id DESC",
+    #         [search, search]).fetchall()
+    # else:
+    #     search_games = cur.execute(
+    #         "SELECT * from games where date = (?) and (name = (?) or right_left = (?)) ORDER BY id DESC",
+    #         [date, search, search]).fetchall()
+    # games = []
+    # for row in search_games:
+    #     games.append(
+    #         {'id': row[0], 'day': row[1], 'name': row[2], 'right_left': row[3], 'contents': row[4]})
+    # con.commit()
+    # con.close()
+    # return render_template(
+    #     'index.html',
+    #     games=games
+    # )
     return render_template(
         'index.html',
-        games=games
+        games=[]
     )
 
 
-@app.route('/send', methods=['post', 'get'])
+@main.route('/send', methods=['post', 'get'])
 def send():
-    num = request.form['id']
-    con = sqlite3.connect(DATABASE)
-    cur = con.cursor()
-    cur.execute("SELECT * from games where id = (?)",
-                [num])
-    file_name = cur.fetchall()[0][4]
+    game_id = request.form['id']
+    file_name = models.Game.query.filter(models.Game.id == game_id).first()[4]
 
     # -------------データ分析の記述--------------------
     df = pd.read_csv(file_name)
@@ -105,67 +83,62 @@ def send():
     fig.savefig(filename)
 
     # ----------------ここまでデータ分析の記述/それぞれ画像ファイルに保存-------------
-    con.close()
     return render_template('display.html')
 
 
-@app.route('/form')
+@main.route('/form')
 def form():
     return render_template(
         'form.html'
     )
 
 
-@app.route('/display')
+@main.route('/display')
 def display():
     return render_template(
         'display.html'
     )
 
 
-@app.route('/register', methods=['post', 'get'])
+@main.route('/register', methods=['post', 'get'])
 def register():
     date = request.form['date']
     name = request.form['name']
     right_left = request.form['right_left']
-    contents = request.files.getlist('contents')
+    content = request.files.getlist('content')
 
-    if contents:
-        for file in contents:
+    if content:
+        for file in content:
             fileName = file.filename
             file.save(fileName)
-    con = sqlite3.connect(DATABASE)
-    cur = con.cursor()
-    sql = "SELECT count(*) FROM games"
-    cur.execute(sql)
-    id = cur.fetchall()[0][0]
-    if id != 0:
-        sql = "SELECT max(id) from games"
-        cur.execute(sql)
-        id = cur.fetchall()[0][0] + 1
-    else:
-        id += 1
-    cur.execute('INSERT INTO games VALUES(?,?,?,?,?)',
-                [id, date, name, right_left, fileName])
-    con.commit()
-    con.close()
-    return redirect(url_for('index'))
+
+    print(date, name, right_left, content)
+
+    game = models.Game(
+        date=date,
+        name=name,
+        right_left=right_left,
+        content=content
+    )
+    models.db.session.add(game)
+    models.db.session.commit()
+
+    return redirect(url_for('main.index'))
 
 
-@app.route('/delete')
+@main.route('/delete')
 def delete():
     return render_template(
         'delete.html'
     )
 
 
-@app.route('/dele', methods=['post'])
+@main.route('/dele', methods=['post'])
 def dele():
-    number = int(request.form['id'])
-    con = sqlite3.connect(DATABASE)
-    cur = con.cursor()
-    cur.execute("DELETE from games where id = (?)",
-                [number])
-    con.commit()
-    con.close()
-    return redirect(url_for('index'))
+    game_id = int(request.form['id'])
+
+    game = models.Game.query.filter(models.Game.id == game_id)
+    models.db.session.delete(game)
+    models.db.session.commit()
+
+    return redirect(url_for('main.index'))

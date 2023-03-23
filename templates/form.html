@@ -15,7 +15,9 @@
 
             <li><label>年/月/日：<input type="date"></label></li>
 
-            <li><input type="search" autocomplete="on" list="list"></li>
+            <li><label>
+                <input type="search" autocomplete="on" list="list">
+            </label></li>
 
             <!-- 候補を表示 -->
 
@@ -49,7 +51,7 @@
 <body>
 <div>
 
-    <form method="post" action="{{ url_for('register') }}" enctype="multipart/form-data">
+    <form method="post" action="{{ url_for('main.register') }}" enctype="multipart/form-data">
         <input type="file" name="contents" multiple>
         <table border="1">
             <tr>
@@ -58,9 +60,15 @@
                 <th>利き手</th>
             </tr>
             <tr>
-                <td><input type="date" name="date"></td>
-                <td><input type="text" name="name"></td>
-                <td><input type="text" name="right_left"></td>
+                <td><label>
+                    <input type="date" name="date">
+                </label></td>
+                <td><label>
+                    <input type="text" name="name">
+                </label></td>
+                <td><label>
+                    <input type="text" name="right_left">
+                </label></td>
             </tr>
         </table>
 
