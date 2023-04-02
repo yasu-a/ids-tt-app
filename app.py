@@ -7,7 +7,7 @@ app.register_blueprint(main, url_prefix='/main')
 
 @app.route('/')
 def hello():
-    return redirect(url_for('main.delete'))
+    return redirect(url_for('main.index'))
 
 
 if __name__ == "__main__":
