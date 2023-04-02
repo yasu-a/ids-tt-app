@@ -1,0 +1,1 @@
+scp -r . yasu@133.242.183.42:/opt/docker/ids_tt/docker_flask/app
