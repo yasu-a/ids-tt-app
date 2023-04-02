@@ -1,5 +1,5 @@
 from flask import Flask
-from models import init_db
+from main.models import init_db
 
 
 def create_app():
@@ -9,7 +9,7 @@ def create_app():
 
     init_db(app)
 
-    from main import main
+    from main.views import main
 
     app.register_blueprint(main, url_prefix='/')
 

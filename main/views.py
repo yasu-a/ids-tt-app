@@ -3,16 +3,16 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from flask import render_template, request, redirect, url_for, Flask, Blueprint
+from flask import render_template, request, redirect, url_for, Blueprint
 
-import models
+from . import models
 
 # app = Flask(__name__)
 #
 #
 # models.init_db(app)
 
-main = Blueprint('main', __name__)
+from . import main
 
 
 @main.route('/')

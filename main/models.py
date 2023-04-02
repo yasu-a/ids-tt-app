@@ -34,7 +34,7 @@ class Game(ModelBase):
 
 
 def init_db(app):
-    local_database_path = 'database.db'
+    local_database_path = '../database.db'
 
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{local_database_path}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
