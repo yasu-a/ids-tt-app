@@ -17,11 +17,8 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    games = models.Game.query.all()
-
     return render_template(
-        'index.html',
-        games=games
+        'index.html'
     )
 
 
@@ -53,7 +50,7 @@ def sear():
     #     games=games
     # )
     return render_template(
-        'index.html',
+        'marton/index.html',
         games=[]
     )
 
@@ -83,20 +80,20 @@ def send():
     fig.savefig(filename)
 
     # ----------------ここまでデータ分析の記述/それぞれ画像ファイルに保存-------------
-    return render_template('display.html')
+    return render_template('marton/display.html')
 
 
 @main.route('/form')
 def form():
     return render_template(
-        'form.html'
+        'marton/form.html'
     )
 
 
 @main.route('/display')
 def display():
     return render_template(
-        'display.html'
+        'marton/display.html'
     )
 
 
@@ -129,7 +126,7 @@ def register():
 @main.route('/delete')
 def delete():
     return render_template(
-        'delete.html'
+        'marton/delete.html'
     )
 
 
