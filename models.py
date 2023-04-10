@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import dateutil.parser
+import flask_login
 
 db = SQLAlchemy()
 
@@ -15,6 +16,12 @@ def normalize_date(date):
     if not isinstance(date, datetime.date):
         raise TypeError('invalid type of arg')
     return date
+
+
+class User(ModelBase, flask_login.UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    mail = db.Column(db.String)
 
 
 class Game(ModelBase):
@@ -34,7 +41,7 @@ class Game(ModelBase):
 
 
 def init_db(app):
-    local_database_path = '../database.db'
+    local_database_path = 'database.db'
 
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{local_database_path}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

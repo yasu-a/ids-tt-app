@@ -1,5 +1,5 @@
 from flask import *
-from main import main
+from blueprints.main import main
 
 app = Flask(__name__)
 app.register_blueprint(main, url_prefix='/main')
