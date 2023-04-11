@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <main>
+        {% if result %}
+            <h1>Verification E-mail Sent</h1>
+            <p>Please check your e-mail for validating your account.</p>
+
+            <a href="./login">Move to Login</a>
+        {% else %}
+            <h1>Verification Done</h1>
+            <p>You are on the verified account.</p>
+
+            <a href="./login">Move to Login</a>
+        {% endif %}
+    </main>
+{% endblock %}

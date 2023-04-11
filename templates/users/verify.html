@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <main>
+        {% if result %}
+            <h1>Verified!</h1>
+            <p>Your account is verified.</p>
+
+            <a href="/main">Move to Main Page</a>
+        {% else %}
+            <h1>Verification Failed</h1>
+            <p>Your verification url is incorrect.</p>
+
+            <a href="{{ url_for("users.resend") }}">Resend Verification E-mail</a>
+        {% endif %}
+    </main>
+{% endblock %}

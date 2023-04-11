@@ -4,3 +4,4 @@ Flask-SQLAlchemy
 uWSGI
 pandas
 numpy
+argon2-cffi

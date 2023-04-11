@@ -1,0 +1,29 @@
+/* form */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form .input-item {
+    display: flex;
+    flex-direction: column;
+}
+
+form .input-item input {
+    width: 100%;
+}
+
+form .input-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+form .buttons {
+    margin-top: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    display: grid;
+    align-items: stretch;
+}

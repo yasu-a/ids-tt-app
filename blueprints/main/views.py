@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from flask import render_template, request, redirect, url_for
 
-from . import models
+import models
 
 from . import main
 
