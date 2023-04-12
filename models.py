@@ -1,3 +1,6 @@
+import contextlib
+import re
+
 from flask_sqlalchemy import SQLAlchemy
 import datetime
 import dateutil.parser
@@ -83,6 +86,32 @@ class UserVerificationToken(db.Model):
             db.session.commit()
 
 
+class NameSetColumnWrapper:
+    def __init__(self, entry, attr_name):
+        self.__entry = entry
+        self.__attr_name = attr_name
+
+    @contextlib.contextmanager
+    def name_set(self):
+        value = getattr(self.__entry, self.__attr_name)
+        items = set(item for item in re.split(r'[+\s]+', value) if item)
+        yield items
+        new_value = '+'.join(items)
+        setattr(self.__entry, self.__attr_name, new_value)
+
+    def __contains__(self, item):
+        with self.name_set() as s:
+            return item in s
+
+    def add(self, item):
+        with self.name_set() as s:
+            s.add(item)
+
+    def delete(self, item):
+        with self.name_set() as s:
+            s.remove(item)
+
+
 class User(ModelBase, flask_login.UserMixin):
     __tablename__ = 'user'
 
@@ -90,6 +119,8 @@ class User(ModelBase, flask_login.UserMixin):
     name = db.Column(db.String)
     mail = db.Column(db.String)
     pw_hash = db.Column(db.LargeBinary)
+
+    permission = db.Column(db.String)
 
     # verification_token = db.relationship('UserVerificationToken', backref='user', lazy='joined')
 
@@ -152,6 +183,7 @@ class User(ModelBase, flask_login.UserMixin):
         user.name = name
         user.mail = mail
         user.pw_hash = argon2.hash_password(pw.encode(cls.PASSWORD_ENCODING))
+        user.permission = ''
 
         db.session.add(user)
         db.session.commit()
@@ -159,6 +191,33 @@ class User(ModelBase, flask_login.UserMixin):
         user.update_verification_token()
 
         return user
+
+    def add_permission(self, name):
+        col = NameSetColumnWrapper(self, 'permission')
+        col.add(name)
+
+    def check_permission(self, name):
+        col = NameSetColumnWrapper(self, 'permission')
+        return name in col
+
+    def remove_permission(self, name):
+        col = NameSetColumnWrapper(self, 'permission')
+        col.delete(name)
+
+
+class PermissionPredicate:
+    def __init__(self, predicate):
+        self.__predicate = predicate
+
+    @classmethod
+    def from_string(cls, name):
+        def predicate(checker):
+            return checker(name)
+
+        return cls(predicate)
+
+    def __call__(self, checker):
+        return self.__predicate(checker)
 
 
 class Game(ModelBase):

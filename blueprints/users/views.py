@@ -14,13 +14,25 @@ from . import users, login_manager
 
 def check_confirmed(func):
     @wraps(func)
-    def decorated_function(*args, **kwargs):
-        print(current_user.is_confirmed)
+    def wrapper(*args, **kwargs):
         if not current_user.is_confirmed:
             return redirect(url_for("users.inactive"))
         return func(*args, **kwargs)
 
-    return decorated_function
+    return wrapper
+
+
+def check_permission(predicate):
+    def decorator(func):
+        # TODO: here
+        # predicate =
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            if current_user.check_permission()
+
+        return wrapper
+
+    return decorator
 
 
 @users.route('/inactive', methods=['GET'])
