@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/users/login.css">
+{% endblock %}
+
+{% block body %}
+    <main>
+        {# FIXME: insecure login post #}
+        <h1>Login</h1>
+        {% if message %}
+            <p class="message">{{ message }}</p>
+        {% else %}
+            <p class="message"></p>
+        {% endif %}
+        <form action="./login-post" method="POST">
+            <div class="input-item">
+                <div class="input-label">
+                    <p><b>Name</b></p>
+                    <a href="./create">Not a member?</a>
+                </div>
+                <input name="uid">
+            </div>
+            <div class="input-item">
+                <div class="input-label">
+                    <p><b>Password</b></p>
+                    <a href="./forget">Forget password?</a>
+                </div>
+                <input name="pw" type="password">
+            </div>
+            <div class="buttons">
+                <button>Login</button>
+            </div>
+        </form>
+    </main>
+{% endblock %}

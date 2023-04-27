@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <main>
+        <h1>Your Account Created</h1>
+        <p class="notice">
+            <b>Please check your e-mail for validating your account.</b>
+        </p>
+
+        <a href="{{ url_for("users.resend") }}">Resend Verification E-mail</a>
+    </main>
+{% endblock %}

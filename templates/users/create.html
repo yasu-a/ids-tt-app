@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/users/login.css">
+    <script src="/static/js/users/create.js"></script>
+{% endblock %}
+
+{% block body %}
+    <main>
+        <h1>Create Account</h1>
+        <a href="./login">Are you a member?</a>
+        <form action="./create" method="POST" id="form-create-account">
+            <div class="input-item">
+                <div class="input-label">
+                    <p><b>Name</b></p>
+                    <p href="./forget" class="item-message"></p>
+                </div>
+                <input name="uid">
+            </div>
+            <div class="input-item">
+                <div class="input-label">
+                    <p><b>E-mail</b></p>
+                    <p href="./forget" class="item-message"></p>
+                </div>
+                <input name="mail">
+            </div>
+            <div class="input-item">
+                <div class="input-label">
+                    <p><b>Password</b></p>
+                    <p href="./forget" class="item-message"></p>
+                </div>
+                <input name="pw" type="password">
+            </div>
+            <div class="input-item">
+                <div class="input-label">
+                    <p><b>Confirm password</b></p>
+                    <p href="./forget" class="item-message"></p>
+                </div>
+                <input name="pw-confirm" type="password">
+            </div>
+            <div class="buttons">
+                <button id="button-submit">Create Account</button>
+            </div>
+        </form>
+    </main>
+{% endblock %}

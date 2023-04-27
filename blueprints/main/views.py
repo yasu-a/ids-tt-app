@@ -3,25 +3,17 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from flask import render_template, request, redirect, url_for, Flask, Blueprint
+from flask import render_template, request, redirect, url_for
 
 import models
 
-# app = Flask(__name__)
-#
-#
-# models.init_db(app)
-
-main = Blueprint('main', __name__)
+from . import main
 
 
 @main.route('/')
 def index():
-    games = models.Game.query.all()
-
     return render_template(
-        'index.html',
-        games=games
+        'main/index.html'
     )
 
 
@@ -53,7 +45,7 @@ def sear():
     #     games=games
     # )
     return render_template(
-        'index.html',
+        'main/index.html',
         games=[]
     )
 
@@ -83,20 +75,20 @@ def send():
     fig.savefig(filename)
 
     # ----------------ここまでデータ分析の記述/それぞれ画像ファイルに保存-------------
-    return render_template('display.html')
+    return render_template('main/display.html')
 
 
 @main.route('/form')
 def form():
     return render_template(
-        'form.html'
+        'main/form.html'
     )
 
 
 @main.route('/display')
 def display():
     return render_template(
-        'display.html'
+        'main/display.html'
     )
 
 
@@ -129,7 +121,7 @@ def register():
 @main.route('/delete')
 def delete():
     return render_template(
-        'delete.html'
+        'main/delete.html'
     )
 
 
