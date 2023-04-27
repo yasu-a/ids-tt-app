@@ -9,9 +9,7 @@
         {# FIXME: insecure login post #}
         <h1>Login</h1>
         {% if message %}
-            <p class="message">{{ message }}</p>
-        {% else %}
-            <p class="message"></p>
+            <p class="notice warning">{{ message }}</p>
         {% endif %}
         <form action="./login-post" method="POST">
             <div class="input-item">
@@ -28,7 +26,7 @@
                 </div>
                 <input name="pw" type="password">
             </div>
-            <div class="buttons">
+            <div class="buttons-stretch">
                 <button>Login</button>
             </div>
         </form>

@@ -11,11 +11,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] \
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # register blueprints
+from blueprints.marton import marton
 from blueprints.main import main
+from blueprints.root import root
 from blueprints.users import users
 
+app.register_blueprint(marton, url_prefix='/marton')
 app.register_blueprint(main, url_prefix='/main')
 app.register_blueprint(users, url_prefix='/users')
+app.register_blueprint(root, url_prefix='/root')
 
 # initialize db
 from models import db
@@ -32,7 +36,7 @@ login_manager.init_app(app)
 
 
 @app.route('/')
-def hello():
+def index():
     return redirect(url_for('main.index'))
 
 

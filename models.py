@@ -1,3 +1,4 @@
+import collections
 import contextlib
 import re
 
@@ -131,6 +132,8 @@ class User(ModelBase, flask_login.UserMixin):
         return UserVerificationToken.is_verified_user(self.id)
 
     def verify_token(self, token):
+        print(token)
+
         entry = UserVerificationToken.get_for_user(self.id)
         if entry is None:
             return False
@@ -148,8 +151,6 @@ class User(ModelBase, flask_login.UserMixin):
                 User.name == name
             )
         ).first()
-
-        print(user)
 
         if user:
             try:
@@ -183,7 +184,7 @@ class User(ModelBase, flask_login.UserMixin):
         user.name = name
         user.mail = mail
         user.pw_hash = argon2.hash_password(pw.encode(cls.PASSWORD_ENCODING))
-        user.permission = ''
+        user.permission = 'user'
 
         db.session.add(user)
         db.session.commit()
@@ -196,9 +197,40 @@ class User(ModelBase, flask_login.UserMixin):
         col = NameSetColumnWrapper(self, 'permission')
         col.add(name)
 
-    def check_permission(self, name):
+    PERMISSION_TREE = {
+        'root': 'admin'
+    }
+
+    @classmethod
+    def __list_sub_permissions(cls, root_name):
+        tree = list(cls.PERMISSION_TREE.items())
+
+        sub_names = {root_name}
+
+        modified = False
+        while True:
+            for i, (cur, nxt) in enumerate(tree):
+                assert nxt not in sub_names
+                if cur in sub_names:
+                    sub_names.add(nxt)
+                    modified = True
+            if modified:
+                break
+
+        return list(sub_names)
+
+    def __check_permission_by_tree(self, name):
+        for sub_permission in self.__list_sub_permissions(name):
+            if self.__check_single_permission(sub_permission):
+                return True
+        return False
+
+    def __check_single_permission(self, name):
         col = NameSetColumnWrapper(self, 'permission')
         return name in col
+
+    def check_permission(self, name):
+        return self.__check_permission_by_tree(name)
 
     def remove_permission(self, name):
         col = NameSetColumnWrapper(self, 'permission')
@@ -215,6 +247,14 @@ class PermissionPredicate:
             return checker(name)
 
         return cls(predicate)
+
+    @classmethod
+    def normalize(cls, obj):
+        if isinstance(obj, str):
+            obj = cls.from_string(obj)
+        if isinstance(obj, cls):
+            return obj
+        raise TypeError()
 
     def __call__(self, checker):
         return self.__predicate(checker)

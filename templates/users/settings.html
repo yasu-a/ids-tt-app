@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1>User Settings</h1>
+        <nav>
+            {% include "nav_base.html" %}
+        </nav>
+    </header>
+    <main>
+        {% if nav_root %}
+            <h2>You have a root permission!</h2>
+            <a href="{{ url_for("root.index") }}">Root Console</a>
+        {% endif %}
+    </main>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% if current_user.is_authenticated %}
+    <a href="{{ url_for("users.settings") }}">
+        User: <b>{{ current_user.name }}</b>
+    </a>
+    <a href="{{ url_for("users.logout") }}">
+        Logout
+    </a>
+{% else %}
+    <a href="{{ url_for("users.login") }}">
+        <b>Login</b>
+    </a>
+{% endif %}
+<a href="{{ url_for("index") }}">Home</a>
