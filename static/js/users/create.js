@@ -1,5 +1,6 @@
 "use strict";
 
+
 const validators = {
     "uid": ($input) => {
         const value = $input.val();

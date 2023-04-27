@@ -8,6 +8,9 @@
 {% block body %}
     <main>
         <h1>Create Account</h1>
+        {% if message %}
+            <p class="notice warning">{{ message }}</p>
+        {% endif %}
         <a href="./login">Are you a member?</a>
         <form action="./create" method="POST" id="form-create-account">
             <div class="input-item">
@@ -38,7 +41,7 @@
                 </div>
                 <input name="pw-confirm" type="password">
             </div>
-            <div class="buttons">
+            <div class="buttons-stretch">
                 <button id="button-submit">Create Account</button>
             </div>
         </form>

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/root/users.css">
+    <script type="text/javascript" src="/static/js/root/users.js"></script>
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1>Root Console</h1>
+        <h2>Users</h2>
+        <nav>
+            <a href="{{ url_for("root.users") }}">Users</a>
+            {% include "nav_base.html" %}
+        </nav>
+    </header>
+    <main>
+        <table>
+            <tbody>
+            <tr>
+                {% for key in keys %}
+                    <th>{{ key }}</th>
+                {% endfor %}
+            </tr>
+            {% for entry in entries %}
+                <tr>
+                    {% for key in keys %}
+                        <td>{{ entry[key] }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="buttons">
+            <button>Replacement</button>
+            <button>Add</button>
+        </div>
+        {#        <div class="table">#}
+        {#            {% for entry in entries %}#}
+        {#                <div class="row">#}
+        {#                    {% for key in keys %}#}
+        {#                        <div class="cell {{ key }}">{{ entry[key] }}</div>#}
+        {#                    {% endfor %}#}
+        {#                    <div class="row-control">#}
+        {#                        <button class="remove">Remove</button>#}
+        {#                        <button class="change-pw">Edit</button>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            {% endfor %}#}
+        {#        </div>#}
+    </main>
+{% endblock %}

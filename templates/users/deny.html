@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <main>
+        <h1>Permission Denied</h1>
+        <p>You do not have enough permission to see this page.</p>
+        <p>Login user: {{ current_user.name }}</p>
+        <p>Permission: {{ current_user.permission }}</p>
+    </main>
+{% endblock %}
+er: {{ current_user.name }}</p>
+        <p>Permission: {{ current_user.permission }}</p>
+    </main>
+{% endblock %}
