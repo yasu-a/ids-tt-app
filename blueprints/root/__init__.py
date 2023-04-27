@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-main = Blueprint('main', __name__)
+root = Blueprint('root', __name__)
 
 # noinspection PyPep8
 from flask_login import LoginManager, current_user

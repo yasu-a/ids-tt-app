@@ -1,4 +1,11 @@
+/* warning */
+
+.warning {
+    color: red;
+}
+
 /* form */
+
 form {
     display: flex;
     flex-direction: column;
@@ -20,10 +27,24 @@ form .input-label {
     justify-content: space-between;
 }
 
-form .buttons {
+/* buttons */
+
+.buttons-stretch {
     margin-top: 1rem;
     margin-left: 2rem;
     margin-right: 2rem;
     display: grid;
     align-items: stretch;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: end;
+    padding-right: 1.5rem;
+}
+
+.buttons button {
+    width: min(100%, 8rem);
 }
