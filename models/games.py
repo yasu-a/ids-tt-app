@@ -17,14 +17,12 @@ def normalize_date(date):
 class Game(ModelBase):
     __tablename__ = 'game'
 
-    def __init__(self, date, name, right_left, content):
+    def __init__(self, date, name, content):
         self.date = normalize_date(date)
         self.name = name
-        self.right_left = right_left
         self.content = content
 
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
     name = db.Column(db.Text)
-    right_left = db.Column(db.Text)
     content = db.Column(db.LargeBinary)
