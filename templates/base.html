@@ -1,9 +1,17 @@
+{% if base_wide is not defined %}
+    {% set base_wide = False %}
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
     <link rel="stylesheet" href="/static/css/base.css">
+    {% if base_wide %}
+        {# TODO: unify usage of wide.css #}
+        <link rel="stylesheet" href="/static/css/wide.css">
+    {% endif %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     {% block head %}
     {% endblock %}
