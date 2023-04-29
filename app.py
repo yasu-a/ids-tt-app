@@ -14,12 +14,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #       https://ymizushi.hateblo.jp/entry/2016/05/20/040827
 
 # register blueprints
-from blueprints.marton import marton
 from blueprints.main import main
 from blueprints.root import root
 from blueprints.users import users
 
-app.register_blueprint(marton, url_prefix='/marton')
 app.register_blueprint(main, url_prefix='/main')
 app.register_blueprint(users, url_prefix='/users')
 app.register_blueprint(root, url_prefix='/root')
