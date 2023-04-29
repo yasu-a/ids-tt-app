@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+}
+
+table td, table th {
+    border: none;
+    background-color: transparent;
+}
+
+table tr td {
+    border-bottom: var(--border) 1px solid;
+    background-color: var(--bg);
+}
+
+table tr:first-child th {
+    border-top: var(--border) 2px solid;
+    border-bottom: var(--border) 2px solid;
+    background-color: var(--accent-bg);
+}
+
+table tr:last-child td {
+    border-bottom: var(--border) 2px solid;
+}
