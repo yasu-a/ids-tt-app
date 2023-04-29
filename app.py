@@ -10,6 +10,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] \
     = 'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__name__)), 'database.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# TODO: reconstruct resource structure for each blueprint
+#       https://ymizushi.hateblo.jp/entry/2016/05/20/040827
+
 # register blueprints
 from blueprints.marton import marton
 from blueprints.main import main
