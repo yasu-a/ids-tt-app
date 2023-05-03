@@ -24,6 +24,20 @@ def csv_entries():
     )
 
 
+@main.route('/upload', methods=['GET'])
+def upload():
+    return render_template('main/upload.html')
+
+
+@main.route('/upload', methods=['POST'])
+def post_upload():
+    contents = request.files.getlist('contents')
+
+    if contents:
+        for file in contents:
+            file.save(file.name)
+
+
 @main.route('/search')
 def search():
     pass
