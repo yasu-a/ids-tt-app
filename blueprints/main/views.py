@@ -6,6 +6,8 @@ from . import main
 
 from models import db, Game
 
+import os
+
 
 @main.route('/')
 def index():
@@ -35,7 +37,10 @@ def post_upload():
 
     if contents:
         for file in contents:
-            file.save(file.name)
+            path = os.path.join('storage/csvs', file.name)
+            file.save(path)
+
+    return redirect(url_for('.index'))
 
 
 @main.route('/search')
