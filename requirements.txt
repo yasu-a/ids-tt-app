@@ -5,3 +5,8 @@ uWSGI
 pandas
 numpy
 argon2-cffi
+matplotlib
+waitress
+Werkzeug
+Pillow
+python-dateutil
