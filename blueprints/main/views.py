@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 from matplotlib import patches
 from sqlalchemy import or_
 
+
 @main.route('/')
 def index():
     return render_template('main/index.html')
@@ -46,7 +47,10 @@ def post_upload():
 
     if contents:
         for file in contents:
-            file.save(file.name)
+            path = os.path.join('storage/csvs', file.name)
+            file.save(path)
+
+    return redirect(url_for('.index'))
 
 
 @main.route('/search')

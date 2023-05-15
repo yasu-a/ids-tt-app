@@ -2,17 +2,24 @@
     {% set base_wide = False %}
 {% endif %}
 
+{# TODO: import scripts by proper way #}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {# JQuery #}
+    <script src="https://code.jquery.com/jquery-3.0.0.js"
+            crossorigin="anonymous"></script>
+    {# simple.css #}
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+    {# base.css #}
     <link rel="stylesheet" href="/static/css/base.css">
+    {# wide.css #}
     {% if base_wide %}
         {# TODO: unify usage of wide.css #}
         <link rel="stylesheet" href="/static/css/wide.css">
     {% endif %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     {% block head %}
     {% endblock %}
 </head>
