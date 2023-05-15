@@ -1,0 +1,77 @@
+{#{% set base_wide = True %}#}
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/main/csv_entries.css">
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1>Entries</h1>
+        <nav>
+            {% include "nav_base.html" %}
+        </nav>
+    </header>
+    <main>
+        <details>
+            <summary>Filter</summary>
+            <div class="filter-container">
+                <div class="row">
+                    <input id="filter-field-name" type="search" name="search"
+                           placeholder="Enter words to filter entries: e.g. player names">
+                </div>
+                <div class="row">
+                    <input id="filter-field-datetime-begin" type="date" name="date">
+                    ～
+                    <input id="filter-field-datetime-end" type="date" name="date">
+                </div>
+                <div class="row right">
+                    <button id="filter-button">Clear</button>
+                    <button id="filter-button">Apply</button>
+                </div>
+            </div>
+        </details>
+        <div class="table-container">
+            <table>
+                <tbody>
+                <tr>
+                    {% for key, key_string in keys %}
+                        <th>{{ key_string }}</th>
+                    {% endfor %}
+                </tr>
+                {% for entry in entries %}
+                    <tr>
+                        {% for key, key_string in keys %}
+                            <td>{{ entry[key] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="row right">
+                <input class="button" type="button"
+                       onclick="location.href='{{ url_for('.form') }}'"
+                       value="追加">
+                <input class="button" type="button"
+                       onclick="location.href='{{ url_for('.delete') }}'"
+                       value="削除">
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

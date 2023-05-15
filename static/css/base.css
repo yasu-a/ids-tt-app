@@ -1,3 +1,9 @@
+/* fix */
+
+input {
+    margin-bottom: 0;
+}
+
 /* warning */
 
 .warning {
