@@ -45,6 +45,8 @@ def upload():
 def post_upload():
     contents = request.files.getlist('contents')
 
+    print(contents)
+
     if contents:
         for file in contents:
             path = os.path.join('storage/csvs', file.name)

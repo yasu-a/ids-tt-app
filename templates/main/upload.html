@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title>情報登録</title>
+    <title>Upload</title>
     <link rel="stylesheet" href="/static/css/main/upload.css">
     <script src="/static/js/main/upload.js"></script>
 {% endblock %}
@@ -15,12 +15,13 @@
 
     <main>
         <div>
-            <form>
+            <form action="{{ url_for(".post_upload") }}">
                 <div class="upload">
+                    {# TODO: upload file in directory recursively#}
                     <label>
-                        <input type="file" webkitdirectory mozdirectory>Select File
+                        <input id="file-upload" type="file" multiple>Select File
                     </label>
-                    <div class="file-list">
+                    <div class="list file-list">
                         <p>NO FILE CHOSEN</p>
                     </div>
                 </div>
