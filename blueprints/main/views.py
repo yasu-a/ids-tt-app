@@ -45,6 +45,8 @@ def upload():
 def post_upload():
     contents = request.files.getlist('contents')
 
+    print(contents)
+
     if contents:
         for file in contents:
             path = os.path.join('storage/csvs', file.name)
@@ -60,25 +62,29 @@ def search():
     print(date, len(date))
     print(search, len(search))
     if len(date) == 0 and len(search) == 0:
-        search_games = db.session.query(Game).order_by(db.desc(Game.id)).all()#('SELECT * FROM games ORDER BY id DESC').fetchall()
+        search_games = db.session.query(Game).order_by(
+            db.desc(Game.id)).all()  # ('SELECT * FROM games ORDER BY id DESC').fetchall()
     elif len(date) != 0 and len(search) == 0:
-        search_games = db.session.query(Game.date==date).order_by(db.desc(Game.id)).all()
-        #cur.execute("SELECT * from games where date = (?) ORDER BY id DESC",
-                                   #[date]).fetchall()
+        search_games = db.session.query(Game.date == date).order_by(db.desc(Game.id)).all()
+        # cur.execute("SELECT * from games where date = (?) ORDER BY id DESC",
+        # [date]).fetchall()
     elif len(date) == 0 and len(search) != 0:
-        search_games = db.session.query(Game.name==search,Game.right_left==search).order_by(db.desc(Game.id)).all()#cur.execute(
-            #"SELECT * from games where name = (?) or right_left = (?) ORDER BY id DESC",
-            #[search, search]).fetchall()
+        search_games = db.session.query(Game.name == search, Game.right_left == search).order_by(
+            db.desc(Game.id)).all()  # cur.execute(
+        # "SELECT * from games where name = (?) or right_left = (?) ORDER BY id DESC",
+        # [search, search]).fetchall()
     else:
-        search_games = search_games = db.session.query(Game.date==date,or_(Game.name==search,Game.right_left==search)).order_by(db.desc(Game.id)).all()#cur.execute(
-            #"SELECT * from games where date = (?) and (name = (?) or right_left = (?)) ORDER BY id DESC",
-            #[date, search, search]).fetchall()
+        search_games = search_games = db.session.query(Game.date == date,
+                                                       or_(Game.name == search, Game.right_left == search)).order_by(
+            db.desc(Game.id)).all()  # cur.execute(
+        # "SELECT * from games where date = (?) and (name = (?) or right_left = (?)) ORDER BY id DESC",
+        # [date, search, search]).fetchall()
     games = []
     for row in search_games:
         games.append(
             {'id': row[0], 'day': row[1], 'name': row[2], 'right_left': row[3], 'contents': row[4]})
-    #con.commit()
-    #con.close()
+    # con.commit()
+    # con.close()
     return render_template(
         'index.html',
         games=games
@@ -88,10 +94,10 @@ def search():
 @main.route('/send')
 def send():
     num = request.form['id']
-    #con = sqlite3.connect(DATABASE)
-    #cur = con.cursor()
-    search_games = db.session.query(Game.id==num)#cur.execute("SELECT * from games where id = (?)",
-                #[num])
+    # con = sqlite3.connect(DATABASE)
+    # cur = con.cursor()
+    search_games = db.session.query(Game.id == num)  # cur.execute("SELECT * from games where id = (?)",
+    # [num])
     file_name = search_games[0][4]
 
     # -------------データ分析の記述--------------------
@@ -401,13 +407,14 @@ def delete():
         'delete.html'
     )
 
+
 @main.route('/delete', methods=['post'])
 def post_delete():
     number = int(request.form['id'])
-    #con = sqlite3.connect(DATABASE)
-    #cur = con.cursor()
-    db.session.query(Game.id==number)#cur.execute("DELETE from games where id = (?)",
-               # [number])
-    #con.commit()
-    #con.close()
+    # con = sqlite3.connect(DATABASE)
+    # cur = con.cursor()
+    db.session.query(Game.id == number)  # cur.execute("DELETE from games where id = (?)",
+    # [number])
+    # con.commit()
+    # con.close()
     return redirect(url_for('index'))

@@ -11,12 +11,58 @@
 }
 
 .upload label {
-    border: blue 1px solid;
     text-align: center;
-    padding: 10px 40px;
     cursor: pointer;
+
+    border: none;
+    border-radius: var(--standard-border-radius);
+    background-color: var(--accent);
+    font-size: 1rem;
+    color: var(--bg);
+    padding: 0.7rem 0.9rem;
+    margin: 0.5rem 0;
+    font-family: inherit;
+}
+
+.upload label:hover {
+    filter: brightness(1.4);
 }
 
 input[type="file"] {
     display: none;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px;
+}
+
+.list .entry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.list .entry {
+    height: 1em;
+}
+
+.list .entry .column.name {
+    justify-self: left;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.list .entry .column.datetime {
+    justify-self: right;
+    text-align: right;
+    font-size: x-small;
+}
+
+.list .entry .column.size {
+    justify-self: right;
+    text-align: right;
+    font-size: x-small;
 }
