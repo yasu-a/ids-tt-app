@@ -75,7 +75,8 @@ def search():
         # [search, search]).fetchall()
     else:
         search_games = search_games = db.session.query(Game.date == date,
-                                                       or_(Game.name == search, Game.right_left == search)).order_by(
+                                                       or_(Game.name == search,
+                                                           Game.right_left == search)).order_by(
             db.desc(Game.id)).all()  # cur.execute(
         # "SELECT * from games where date = (?) and (name = (?) or right_left = (?)) ORDER BY id DESC",
         # [date, search, search]).fetchall()
@@ -96,7 +97,8 @@ def send():
     num = request.form['id']
     # con = sqlite3.connect(DATABASE)
     # cur = con.cursor()
-    search_games = db.session.query(Game.id == num)  # cur.execute("SELECT * from games where id = (?)",
+    search_games = db.session.query(
+        Game.id == num)  # cur.execute("SELECT * from games where id = (?)",
     # [num])
     file_name = search_games[0][4]
 

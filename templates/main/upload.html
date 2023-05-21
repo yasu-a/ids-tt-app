@@ -15,7 +15,7 @@
 
     <main>
         <div>
-            <form action="{{ url_for(".post_upload") }}">
+            <form action="{{ url_for(".post_upload") }}" id="fileupload">
                 <div class="upload">
                     {# TODO: upload file in directory recursively#}
                     <label>
@@ -25,8 +25,7 @@
                         <p>NO FILE CHOSEN</p>
                     </div>
                 </div>
-                <input type="submit" value="送信する">
-                <input type="reset" value="リセットする">
+                <input type="submit" value="送信">
             </form>
         </div>
     </main>

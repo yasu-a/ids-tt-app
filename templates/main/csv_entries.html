@@ -31,7 +31,7 @@
                 </div>
             </div>
         </details>
-        <div class="table-container">
+        <div class="table-container" id="fileupload">
             <table>
                 <tbody>
                 <tr>
@@ -50,7 +50,7 @@
             </table>
             <div class="row right">
                 <input class="button" type="button"
-                       onclick="location.href='{{ url_for('.form') }}'"
+                       onclick="location.href='{{ url_for('.upload') }}'"
                        value="追加">
                 <input class="button" type="button"
                        onclick="location.href='{{ url_for('.delete') }}'"

@@ -1,15 +1,13 @@
 "use strict";
 
 const FILE_UPLOAD_SELECTOR = "#file-upload";
-
-const CSV_ICON = "<img src=\"data:image/svg+xml;base64,PHN2ZyBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjIiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtMjEgNGMwLS40NzgtLjM3OS0xLTEtMWgtMTZjLS42MiAwLTEgLjUxOS0xIDF2MTZjMCAuNjIxLjUyIDEgMSAxaDE2Yy40NzggMCAxLS4zNzkgMS0xem0tMTYuNS41aDE1djE1aC0xNXptMTIuNSAxMC43NWMwLS40MTQtLjMzNi0uNzUtLjc1LS43NWgtOC41Yy0uNDE0IDAtLjc1LjMzNi0uNzUuNzVzLjMzNi43NS43NS43NWg4LjVjLjQxNCAwIC43NS0uMzM2Ljc1LS43NXptMC0zLjI0OGMwLS40MTQtLjMzNi0uNzUtLjc1LS43NWgtOC41Yy0uNDE0IDAtLjc1LjMzNi0uNzUuNzVzLjMzNi43NS43NS43NWg4LjVjLjQxNCAwIC43NS0uMzM2Ljc1LS43NXptMC0zLjI1MmMwLS40MTQtLjMzNi0uNzUtLjc1LS43NWgtOC41Yy0uNDE0IDAtLjc1LjMzNi0uNzUuNzVzLjMzNi43NS43NS43NWg4LjVjLjQxNCAwIC43NS0uMzM2Ljc1LS43NXoiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvc3ZnPg==\">";
+const FORM_UPLOAD_SELECTOR = "form#fileupload";
 
 
 function generateEntriesHTML(mappings, mappers) {
     let entries_string = $.map(
         mappings,
-        mapping => {
-            console.log(Object.entries(mapping));
+        (mapping) => {
             let column_strings = $.map(
                 mapping,
                 (value, key) => {
@@ -21,9 +19,7 @@ function generateEntriesHTML(mappings, mappers) {
             return `<div class="entry">${entry_content}</div>`;
         }
     );
-    let content_string = Array.from(entries_string).join("");
-    console.log(content_string);
-    return content_string;
+    return Array.from(entries_string).join("");
 }
 
 let filesToBeUploaded = [];
@@ -52,16 +48,45 @@ function updateFileList() {
             datetime: value => `${value.toISOString().slice(0, 10)} ${value.toISOString().slice(11, 19)}`
         }
     );
-    console.log(content);
     $(".file-list").html(content);
 }
 
+function uploadFile(file) {
+    const fd = new FormData();
+    fd.append("file", file, file.name);
+    fd.append("upload_file", true);
+
+    $.ajax({
+        type: "POST",
+        url: "{{ url_for(\".post_upload\") }}",
+        async: true,
+        data: fd,
+        cache: false,
+        contentType: "multipart/form-data",
+        processData: false,
+        timeout: 60000
+    }).done((result) => {
+        console.log(result);
+    }).fail((result) => {
+        console.log(result);
+    });
+}
+
 $("document").ready(() => {
-    $(FILE_UPLOAD_SELECTOR).change(
-        (evt) => {
-            let files = $(FILE_UPLOAD_SELECTOR).prop("files");
-            pushFiles(files);
-            updateFileList();
-        }
-    );
+    $(FILE_UPLOAD_SELECTOR).change((evt) => {
+        let files = $(FILE_UPLOAD_SELECTOR).prop("files");
+        pushFiles(files);
+        updateFileList();
+    });
+    $(FORM_UPLOAD_SELECTOR).submit((evt) => {
+        evt.preventDefault();
+        console.log(evt);
+        $.each(
+            filesToBeUploaded,
+            (file) => {
+                console.log(file);
+                uploadFile(file);
+            }
+        );
+    });
 });
